@@ -1,0 +1,271 @@
+Microsoft Windows [versão 10.0.26200.8457]
+(c) Microsoft Corporation. Todos os direitos reservados.
+
+C:\Users\rafae>cd C:\xampp\mysql\bin
+
+C:\xampp\mysql\bin>mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 22
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use produtos
+Database changed
+MariaDB [produtos]> ALTER TABLE produtos CHANGE datacadastro datacad date;
+ERROR 1146 (42S02): Table 'produtos.produtos' doesn't exist
+MariaDB [produtos]> ALTER TABLE produtos CHANGE datacadastro datacad DATE;
+ERROR 1146 (42S02): Table 'produtos.produtos' doesn't exist
+MariaDB [produtos]> ALTER TABLE produto CHANGE datacadastro datacad DATE;
+Query OK, 0 rows affected (0.121 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [produtos]> use categoria
+ERROR 1049 (42000): Unknown database 'categoria'
+MariaDB [produtos]> SHOW TABLES;
++--------------------+
+| Tables_in_produtos |
++--------------------+
+| categoria          |
+| produto            |
++--------------------+
+2 rows in set (0.002 sec)
+
+MariaDB [produtos]> Use categoria
+ERROR 1049 (42000): Unknown database 'categoria'
+MariaDB [produtos]> DESCRIBE categoria;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| idcategoria | int(11)      | NO   | PRI | NULL    | auto_increment |
+| categoria   | varchar(100) | NO   |     | NULL    |                |
+| descricao   | varchar(255) | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.059 sec)
+
+MariaDB [produtos]> ALTER TABLE categoria DROP COLUMN descricao
+    -> ;
+Query OK, 0 rows affected (0.022 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [produtos]> describe categoria
+    -> ;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| idcategoria | int(11)      | NO   | PRI | NULL    | auto_increment |
+| categoria   | varchar(100) | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+2 rows in set (0.036 sec)
+
+MariaDB [produtos]> ALTER TABLE categoria ADD descricao
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [produtos]> ALTER TABLE categoria ADD descricao VARCHAR(255);
+Query OK, 0 rows affected (0.030 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [produtos]> DESCRIBE CATEGORIA;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| idcategoria | int(11)      | NO   | PRI | NULL    | auto_increment |
+| categoria   | varchar(100) | NO   |     | NULL    |                |
+| descricao   | varchar(255) | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.086 sec)
+
+MariaDB [produtos]> insert into categoria (idcategoria, categoria, descricao) values (1, produtos de limpeza, produtos usados na limpeza da casa)
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'de limpeza, produtos usados na limpeza da casa)' at line 1
+MariaDB [produtos]> INSERT INTO categoria (idcategoria, categoria, descricao)
+    -> VALUES (1, 'produtos de limpeza', 'produtos usados na limpeza da casa');
+Query OK, 1 row affected (0.046 sec)
+
+MariaDB [produtos]> describe categoria
+    -> ;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| idcategoria | int(11)      | NO   | PRI | NULL    | auto_increment |
+| categoria   | varchar(100) | NO   |     | NULL    |                |
+| descricao   | varchar(255) | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.046 sec)
+
+MariaDB [produtos]> select * from categoria
+    -> ;
++-------------+---------------------+------------------------------------+
+| idcategoria | categoria           | descricao                          |
++-------------+---------------------+------------------------------------+
+|           1 | produtos de limpeza | produtos usados na limpeza da casa |
++-------------+---------------------+------------------------------------+
+1 row in set (0.004 sec)
+
+MariaDB [produtos]> INSERT INTO categoria (idcategoria, categoria, descricao)
+    -> VALUES (2, 'produtos de higiene', 'produtos usado para a higiene pessoal');
+Query OK, 1 row affected (0.011 sec)
+
+MariaDB [produtos]> select * from categoria;
++-------------+---------------------+---------------------------------------+
+| idcategoria | categoria           | descricao                             |
++-------------+---------------------+---------------------------------------+
+|           1 | produtos de limpeza | produtos usados na limpeza da casa    |
+|           2 | produtos de higiene | produtos usado para a higiene pessoal |
++-------------+---------------------+---------------------------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [produtos]> rename table produtos to intens;
+ERROR 1146 (42S02): Table 'produtos.produtos' doesn't exist
+MariaDB [produtos]> rename table produto to intens;
+Query OK, 0 rows affected (0.023 sec)
+
+MariaDB [produtos]> show database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'database' at line 1
+MariaDB [produtos]> SHOW TABLES;
++--------------------+
+| Tables_in_produtos |
++--------------------+
+| categoria          |
+| intens             |
++--------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [produtos]> describe itens;
+ERROR 1146 (42S02): Table 'produtos.itens' doesn't exist
+MariaDB [produtos]> describe itens;rename table intens to itens;
+ERROR 1146 (42S02): Table 'produtos.itens' doesn't exist
+Query OK, 0 rows affected (0.018 sec)
+
+MariaDB [produtos]> describe itens;
++-------------+---------------+------+-----+---------+----------------+
+| Field       | Type          | Null | Key | Default | Extra          |
++-------------+---------------+------+-----+---------+----------------+
+| idproduto   | int(11)       | NO   | PRI | NULL    | auto_increment |
+| idcategoria | int(11)       | YES  | MUL | NULL    |                |
+| nomeproduto | varchar(100)  | NO   |     | NULL    |                |
+| preco       | decimal(10,2) | NO   |     | NULL    |                |
+| qtde        | int(11)       | NO   |     | NULL    |                |
+| datacad     | date          | YES  |     | NULL    |                |
+| ativo       | bit(1)        | NO   |     | NULL    |                |
++-------------+---------------+------+-----+---------+----------------+
+7 rows in set (0.054 sec)
+
+MariaDB [produtos]> INSERT INTO itens (idprodutos, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> VALUES (1, 1, "Detergente", 2.50, 1, 2026-06-2, 1)
+    -> ;
+ERROR 1054 (42S22): Unknown column 'idprodutos' in 'field list'
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> VALUES (1, 1, 'Detergente', 2.50, 1, '2026-06-02', 1);
+Query OK, 1 row affected (0.023 sec)
+
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> VALUES (2, 1, "Candida", 5.50, 1, 2026-06-2, 1);
+Query OK, 1 row affected, 1 warning (0.023 sec)
+
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> VALUES (2, 1, "paha de aço", 4.50, 8, 2026-06-2, 1);
+ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> VALUES (3, 1, "paha de aço", 4.50, 8, 2026-06-2, 1);
+Query OK, 1 row affected, 1 warning (0.021 sec)
+
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> VALUES (4, 1, "Desinfetante", 5.50, 1, 2026-06-2, 1);
+Query OK, 1 row affected, 1 warning (0.019 sec)
+
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> VALUES (5, 1, "Amaciante concentrado", 25.00, 1, 2026-06-2, 1);
+Query OK, 1 row affected, 1 warning (0.021 sec)
+
+MariaDB [produtos]> select * from itens;
++-----------+-------------+-----------------------+-------+------+------------+-------+
+| idproduto | idcategoria | nomeproduto           | preco | qtde | datacad    | ativo |
++-----------+-------------+-----------------------+-------+------+------------+-------+
+|         1 |           1 | Detergente            |  2.50 |    1 | 2026-06-02 |      |
+|         2 |           1 | Candida               |  5.50 |    1 | 0000-00-00 |      |
+|         3 |           1 | paha de aço           |  4.50 |    8 | 0000-00-00 |      |
+|         4 |           1 | Desinfetante          |  5.50 |    1 | 0000-00-00 |      |
+|         5 |           1 | Amaciante concentrado | 25.00 |    1 | 0000-00-00 |      |
++-----------+-------------+-----------------------+-------+------+------------+-------+
+5 rows in set (0.001 sec)
+
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> VALUES (1Bye, "", , 1, 2026-06-2, 1);
+Ctrl-C -- exit!
+
+C:\xampp\mysql\bin>mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 65
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use produtos
+Database changed
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> values  (1, 2, "Sabonete em barra", 3.20, 1, 2026-06-2, 1),
+    -> values  (2, 2, "Pasta de dente", 4.80, 1, 2026-06-2, 1),
+    -> values  (3, 2, "Pasta de "Shampoo", 15.90, 1, 2026-06-2, 1),
+    "> values  (4, 2, "Pasta de "Condicionador", 18.50, 1, 2026-06-2, 1),
+    -> values  (5, 2, "Desodorante", 16.20, 1, 2026-06-2, 1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad,...' at line 2
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> values  (1, 2, "Sabonete em barra", 3.20, 1, 2026-06-2, 1);
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+MariaDB [produtos]> select * from itens;
++-----------+-------------+-----------------------+-------+------+------------+-------+
+| idproduto | idcategoria | nomeproduto           | preco | qtde | datacad    | ativo |
++-----------+-------------+-----------------------+-------+------+------------+-------+
+|         1 |           1 | Detergente            |  2.50 |    1 | 2026-06-02 |      |
+|         2 |           1 | Candida               |  5.50 |    1 | 0000-00-00 |      |
+|         3 |           1 | paha de aço           |  4.50 |    8 | 0000-00-00 |      |
+|         4 |           1 | Desinfetante          |  5.50 |    1 | 0000-00-00 |      |
+|         5 |           1 | Amaciante concentrado | 25.00 |    1 | 0000-00-00 |      |
++-----------+-------------+-----------------------+-------+------+------------+-------+
+5 rows in set (0.001 sec)
+
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> values  (1, 2, "Sabonete em barra", 3.20, 1, 2026-06-2, 1);
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> values  (6, 2, "Sabonete em barra", 3.20, 1, 2026-06-2, 1),
+    -> values  (7, 2, "Pasta de dente", 4.80, 1, 2026-06-2, 1),
+    -> values  (8, 2, "Shampoo", 15.90, 1, 2026-06-2, 1),
+    -> values  (9, 2, "Condicionador", 18.50, 1, 2026-06-2, 1),
+    -> values  (10, 2, "Desodorante", 16.20, 1, 2026-06-2, 1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'values  (7, 2, "Pasta de dente", 4.80, 1, 2026-06-2, 1),
+values  (8, 2, "Sham...' at line 3
+MariaDB [produtos]> INSERT INTO itens (idproduto, idcategoria, nomeproduto, preco, qtde, datacad, ativo)
+    -> values  (6, 2, "Sabonete em barra", 3.20, 1, 2026-06-2, 1),
+    -> (7, 2, "Pasta de dente", 4.80, 1, 2026-06-2, 1),
+    -> (8, 2, "Shampoo", 15.90, 1, 2026-06-2, 1),
+    -> (9, 2, "Condicionador", 18.50, 1, 2026-06-2, 1),
+    -> (10, 2, "Desodorante", 16.20, 1, 2026-06-2, 1);
+Query OK, 5 rows affected, 5 warnings (0.027 sec)
+Records: 5  Duplicates: 0  Warnings: 5
+
+MariaDB [produtos]> select * from itens;
++-----------+-------------+-----------------------+-------+------+------------+-------+
+| idproduto | idcategoria | nomeproduto           | preco | qtde | datacad    | ativo |
++-----------+-------------+-----------------------+-------+------+------------+-------+
+|         1 |           1 | Detergente            |  2.50 |    1 | 2026-06-02 |      |
+|         2 |           1 | Candida               |  5.50 |    1 | 0000-00-00 |      |
+|         3 |           1 | paha de aço           |  4.50 |    8 | 0000-00-00 |      |
+|         4 |           1 | Desinfetante          |  5.50 |    1 | 0000-00-00 |      |
+|         5 |           1 | Amaciante concentrado | 25.00 |    1 | 0000-00-00 |      |
+|         6 |           2 | Sabonete em barra     |  3.20 |    1 | 0000-00-00 |      |
+|         7 |           2 | Pasta de dente        |  4.80 |    1 | 0000-00-00 |      |
+|         8 |           2 | Shampoo               | 15.90 |    1 | 0000-00-00 |      |
+|         9 |           2 | Condicionador         | 18.50 |    1 | 0000-00-00 |      |
+|        10 |           2 | Desodorante           | 16.20 |    1 | 0000-00-00 |      |
++-----------+-------------+-----------------------+-------+------+------------+-------+
+10 rows in set (0.018 sec)
+
+MariaDB [produtos]>
